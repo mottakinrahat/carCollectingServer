@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Products {
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
+  productName        String         @unique
+  productImage       ProductImage[]
+  ProductDescription String
+  auction            Boolean
+  price              Int
+  brandId            String         @db.ObjectId
+  brand              Brand          @relation(fields: [brandId], references: [id])
+  drivingPosition    String
+  ManufactureCountry String
+  status             carStatus
+  category           categoryEnum
+  isDeleted          Boolean
+
+  // productReview      review         @relation(fields: [reviewId], references: [id])
+  // reviewId           String         @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("products")
+}
+
+enum categoryEnum {
+  weeklyHighlights
+  supercars
+  jdmLeagends
+  airCoooled
+  offRoadExplorer
+  twoWheels
+}
+
+enum carStatus {
+  pending
+  live
+  sold
+}
+
+model ProductImage {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  image      String
+  imageType  String
+  Products   Products? @relation(fields: [productsId], references: [id])
+  productsId String?   @db.ObjectId
+}
+
+model Brand {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  brandName String
+  Products  Products[]
+
+  @@map("brands")
+}
+
+// model category {
+//   id              String @id @default(auto()) @map("_id") @db.ObjectId
+//   productCategory String
+//   categoryType    String
+// }
+
+// model review {
+//   id         String @id @default(auto()) @map("_id") @db.ObjectId
+//   reviewDesc String
+//   rating     Int
+
+//   Products Products[]
+// }
