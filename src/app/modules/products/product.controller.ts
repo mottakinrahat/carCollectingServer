@@ -17,16 +17,17 @@ const createProduct = catchAsync(async (req: Request, res: Response) => {
     })
 });
 
-const getAllProductFromDB = catchAsync(async (req: Request, res: Response) => {
-    const result = await productServices.getAllProductIntoDB();
+const getAllProduct = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.query);
+    const result = await productServices.getAllProductsFromDB(req.query as any);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'PRoducts retrieval successfully',
+        message: 'Products retrieval successfully',
         data: result,
     });
 });
 
 export const productCotroller = {
-    createProduct,getAllProductFromDB
+    createProduct, getAllProduct
 }

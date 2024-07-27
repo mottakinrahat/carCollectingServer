@@ -9,7 +9,7 @@ const router = express.Router();
 
 // task 3
 router.post('/', productCotroller.createProduct);
-router.get('/',  productCotroller.getAllProductFromDB);
+router.get('/', productCotroller.getAllProduct);
 
 
 

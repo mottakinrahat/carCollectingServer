@@ -19,4 +19,4 @@ const sendResponse = <T>(res: Response, jsonData: {
     })
 }
 
-export default sendResponse;
+export default sendResponse;console.log('');
